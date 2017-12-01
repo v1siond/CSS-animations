@@ -1,0 +1,43 @@
+.container {
+  padding: 5rem;
+  width: 30rem;
+}
+
+.blue-square,
+.red-square {
+  height: 5rem;
+  width: 5rem;
+}
+
+.blue-square {
+  animation-name: move;
+  animation-duration: 2s;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.1, 0.75, 1.0, 0.4);
+  animation-iteration-count: infinite;
+  background: lightblue;
+}
+
+.red-square {
+  animation: move 2s ease-out alternate infinite;
+  background: red;
+  margin-top: 2rem;
+}
+
+@keyframes move {
+  from {
+    margin-left: 0;
+  }
+  to {
+    margin-left: 10rem;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 40%, 60%, 80%, 100% {
+    transform: translateY(1rem) ;
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateY(0rem);
+  }
+}

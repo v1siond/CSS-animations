@@ -1,0 +1,61 @@
+.cloud-draw {
+	background: white;
+	border-radius: 50%;
+	left: 25%;
+	position: absolute;
+}
+
+.cloud-draw:before,
+.cloud-draw:after {
+	background: linear-gradient(to top, #EFEBE5 5%, white 100%);
+	border-radius: 50%;
+	content: '';
+	height: 100%;
+	position: absolute;
+	top: 50%;
+}
+
+.cloud-draw:before {
+	left: -20%;
+	width: 75%;
+}
+
+.cloud-draw:after {
+	right: -20%;
+	width: 100%;
+}
+
+.cloud-draw.-big {
+	animation: 17.5s wind_horizontal linear infinite;
+	height: 6rem;
+	top: 5%;
+	width: 15rem;
+}
+
+.cloud-draw.-mid {
+	animation: 10s wind_horizontal linear infinite;
+	height: 4.5rem;
+	top: 70%;
+	width: 11rem;
+}
+
+.cloud-draw.-small {
+	animation: 15s wind_horizontal linear infinite;
+	height: 3rem;
+	top: 45%;
+	width: 5rem;
+}
+
+@keyframes wind_horizontal {
+	0% {
+		left: 105%;
+		opacity: 1;
+	}
+	65%, 100% {
+		opacity: 0
+	}
+	100% {
+		left: -100%;
+	}
+}
+

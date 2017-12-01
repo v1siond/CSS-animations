@@ -1,0 +1,7 @@
+.container {
+	background: lightblue;
+	height: 60vh;
+	overflow: hidden;
+	position: relative;
+	width: 50%;
+}

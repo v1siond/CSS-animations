@@ -1,0 +1,241 @@
+# CSS Drawing and Animations Day V
+
+## Animation Sub-properties and Their Effects
+Learn how the animation sub properties affects your animation by applying different values of each one to a simple 2d animation.
+
+### Introduction
+We have already learned how the 2D and 3D animations works, but there're a lot of animation sub-properties, each one have it's use cases and affects your animation in different ways, so today we're going to go trough all of them, so let's get started!
+
+### Getting Started
+Here i have a simple project structure with an `index.html` file and a `styles` folder and we already have applied a simple boilerplate template and added the `animations.css` file which have basic style for our example elements, we also added [normalize](https://necolas.github.io/normalize.css/)
+
+``` html
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="styles/normalize.css">
+  <link rel="stylesheet" type="text/css" href="styles/animations.css">
+  <title>Css Animation</title>
+</head>
+<body>
+  <div class="container">
+    <div class="blue-square"></div>
+    <div class="red-square"></div>
+  </div>
+</body>
+</html>
+```
+Ok, here we have two animations, `move` and `bounce` and a couple of squares, which are going to be our example elements. Both of them have the animations applied, just like we've doing it.
+
+
+``` css
+  .container {
+    padding: 5rem;
+    width: 30rem;
+  }
+
+  .blue-square,
+  .red-square {
+    height: 5rem;
+    width: 5rem;
+  }
+
+  .blue-square {
+    animation: move 2s alternate infinite;
+    background: lightblue;
+  }
+
+  .red-square {
+    animation: move 2s alternate infinite;
+    background: red;
+    margin-top: 2rem;
+  }
+
+  @keyframes move {
+    from {
+      margin-left: 0;
+    }
+    to {
+      margin-left: 10rem;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 20%, 40%, 60%, 80%, 100% {
+      transform: translateY(1rem) ;
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateY(0rem);
+    }
+  }
+```
+
+
+First, let's change all the values from the shorthand property, to its individual version.
+
+
+``` css
+  .blue-square {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+```
+
+ Until now we've applying the animation name using the shorthand property, but we have an important advantage if we use `animation-name`, we can set various animations, let's add an animation to our `.blue-square` and see what happens
+
+``` css
+  .blue-square {
+    animation-name: move, bounce;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+```
+
+See whats happening now? we have both animations working at the same time, this can be really useful when making complicated animations. We can also set different times using `animation-duration`, let's see what happen if we apply a different duration to our `.bounce` in the  `.blue-square`
+
+``` css
+  .blue-square {
+    animation-name: move, bounce;
+    animation-duration: 2s`, 5s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+```
+And look what's happening now, the bounce is slower than before. If we want our animation to start after certain time, we can use `animation-delay`. This property allow us to set a delay time before our animation starts. `animation-delay` also accepts negative values, in this case the specified value will be taken directly from the animation duration, which means if we set for example `animation-delay: -1s` and `animation-duration: 5s`, the animation will start in the 4 second. Let's see how the delay affects our ``.blue-square`
+
+``` css
+  .blue-square {
+    animation-name: move, bounce;
+    animation-delay: 3s;
+    animation-duration: 2s`, 5s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+```
+
+As you can see, the element now starts the animation 3 seconds after the other element, now let's change the value for a negative one.
+
+``` css
+  .blue-square {
+    animation-name: move, bounce;
+    animation-delay: -3s;
+    animation-duration: 2s`, 5s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+```
+
+And now the animation starts in the half of the second iteration, we can play with different values and set different starts for our animations.
+
+In our previous examples, we used `animation-direction: normal` and `alternate`, but there're a couple more, `reverse` and `alternate-reverse`, look what happen if we set `reverse`
+
+```css
+  .blue-square {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-direction: reverse;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+```
+
+As you can see, the animation starts from the final state to the initial state, `alternate-reverse` works just like `alternate` but going the same inverted start. It's important to keep in mind that, all of the animation sub-property can accept multiple values separated by comas, awhich means we cn apply different values of each sub-property to each animation we may have defined.
+
+There're cases when we want to maintain the styles from the animation, don't worry we have a property for that, `animation-fill-mode`, which specified how the styles defined in the animation are apllied during the delay time (or permanently if we didn't set any delay and aren't using alternate), we have three important values `forwards`, `backwards` and `both`, let's play with each of them and see how they affect our element
+
+```css
+  .blue-square {
+    animation-name: move;
+    animation-delay: 10s;
+    animation-duration: 2s;
+    animation-direction: reverse;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    background: lightblue;
+  }
+  .red-square {
+    animation: move 2s 4s alternate infinite;
+    animation-fill-mode: backwards;
+    background: red;
+    margin-top: 2rem;
+  }
+```
+
+See what's happening? if we set the `animation-fill-mode: forwards;` the element maintains the styles defined in the final state of the animation and if we set `animation-fill-mode: backwards;`, the element maintain he styles defined in the initial state of the animation.
+
+But what if we want to pause and play the animation? we also have a property for that `animation-play-state`, let's see what happen if we use `paused` in one of our elements.
+
+``` css
+  .blue-square {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-play-state: paused;
+    background: lightblue;
+  }
+```
+
+As you can see the element is paused, and if i change to `running` the animatioan starts, the important thing to keep in mind, is that once we change the value to `running`, the animation will start from the point where was paused.
+
+We already know how `animation-iteration-count` works, so there's just one sub-property left and that's `animation-timing-function`. This property modify the time between transitions and how we see them. First, let's see the difference between the basic values `linear` and `ease-in` / `ease-out`
+
+``` css
+  .blue-square {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background: lightblue;
+  }
+  .red-square {
+    animation: move 2s alternate infinite;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in;
+    background: red;
+    margin-top: 2rem;
+  }
+```
+
+As you can see, if we set `ease-in`, the animation initial state is slower than the final state, and if we set `ease-out` the final state is slower than the initial step`, we can also define in how many steps the animation should be done, let's see how can we do it.ç
+
+```css
+  .blue-square {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(6, end);
+    background: lightblue;
+  }
+```
+
+And see how it woirks now, the animation it's done in just 6 steps, we can even define how many seconds every transition should last
+
+```css
+  .blue-square {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.5, 0.2, 2.0, 0.4);
+    background: lightblue;
+  }
+```
+
+And now all the transitions are completely irregulars, there're a lot of posibilities and it's up to you how you can implement it.
+
+### Summary
+
+Today we learned how all the animation sub-properties work and how they affect the animations we define in our apps, see you in the next video!
